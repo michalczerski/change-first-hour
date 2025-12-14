@@ -1,179 +1,363 @@
 <!DOCTYPE html>
 <html lang="sk">
+
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prvá hodina pre Boha</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Daj Bohu prvú hodinu svojho dňa. Jednoduché pozvanie na premenu srdca a mysle." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+    rel="stylesheet">
+
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #020617cc;
-      --accent: #facc15;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
+      --bg-dark: #0f172a;
+      --bg-darker: #020617;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-gold: #fbbf24;
+      --accent-gold-glow: rgba(251, 191, 36, 0.2);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.1);
+      --container-width: 800px;
+      --header-height: 500px;
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1e293b, #020617 55%);
-      color: var(--text);
-      line-height: 1.6;
-      display: flex;
-      justify-content: center;
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, var(--bg-darker) 70%);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
       min-height: 100vh;
     }
 
-    .page {
-      max-width: 720px;
-      width: 100%;
-      padding: 24px 16px 40px;
+    h1,
+    h2,
+    h3 {
+      font-family: 'Playfair Display', serif;
+      line-height: 1.2;
     }
 
-    header {
+    .container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero {
+      position: relative;
+      height: var(--header-height);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      margin-bottom: 32px;
+      overflow: hidden;
+      margin-bottom: 60px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    }
+
+    .hero-content {
+      z-index: 1;
+      padding-top: 60px;
+      animation: fadeIn 1.2s ease-out;
     }
 
     .logo {
-      font-size: 0.85rem;
-      letter-spacing: 0.35em;
+      font-size: 0.8rem;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
+      letter-spacing: 0.3em;
+      color: var(--accent-gold);
+      margin-bottom: 24px;
+      opacity: 0.9;
+      display: inline-block;
+      border-bottom: 1px solid var(--accent-gold-glow);
+      padding-bottom: 8px;
     }
 
-    h1 {
-      font-size: 2.2rem;
-      margin: 0 0 8px;
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 16px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
 
-    .subtitle {
-      font-size: 0.98rem;
-      color: var(--muted);
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      max-width: 500px;
+      margin: 0 auto;
+      font-weight: 300;
     }
 
     .card {
       background: var(--card-bg);
-      border-radius: 16px;
-      padding: 20px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .intro-text p {
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+      color: #e2e8f0;
+    }
+
+    .intro-text p:last-child {
+      margin-bottom: 0;
     }
 
     .section-title {
+      font-size: 1.8rem;
+      color: var(--accent-gold);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .steps-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      font-weight: bold;
+      line-height: 1;
+      min-width: 30px;
+    }
+
+    .step-content strong {
+      display: block;
       font-size: 1.05rem;
-      font-weight: 600;
-      margin-top: 18px;
-      margin-bottom: 8px;
-      color: var(--accent);
+      margin-bottom: 4px;
+      color: var(--text-primary);
     }
 
-    p {
-      margin: 8px 0;
-      font-size: 0.98rem;
+    .step-content {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
     }
 
-    ol {
-      margin: 8px 0 8px 1.1rem;
-      padding: 0;
-      font-size: 0.96rem;
+    .prayer-card {
+      text-align: center;
+      border-top: 3px solid var(--accent-gold);
     }
 
-    li {
-      margin-bottom: 8px;
-    }
-
-    .prayer {
+    .prayer-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
       font-style: italic;
-      border-left: 3px solid var(--accent);
-      padding-left: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      color: #fff;
+      margin: 20px 0;
+      line-height: 1.6;
     }
 
     .quote {
-      margin-top: 14px;
-      font-size: 0.95rem;
-      font-style: italic;
-      color: var(--muted);
-    }
-
-    .footer-note {
       text-align: center;
-      margin-top: 20px;
-      font-size: 0.78rem;
-      color: var(--muted);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: 40px;
+      opacity: 0.8;
     }
 
-    .badge {
+    footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    .cta-badge {
       display: inline-block;
-      margin-top: 14px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(250, 204, 21, 0.6);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--accent);
+      margin-top: 30px;
+      background: linear-gradient(135deg, var(--accent-gold), #d97706);
+      color: #000;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 99px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px var(--accent-gold-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    @media (min-width: 768px) {
-      .page {
-        padding: 40px 24px 56px;
+    .cta-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(251, 191, 36, 0.4);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
-      h1 {
-        font-size: 2.6rem;
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
+
+    @media (max-width: 600px) {
+      :root {
+        --header-height: 400px;
+      }
+
       .card {
-        padding: 24px 22px;
+        padding: 24px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
       }
     }
   </style>
 </head>
-<body>
-  <main class="page">
-    <header>
-      <div class="logo">1hour4God.com</div>
-      <h1>Prvá hodina pre Boha</h1>
-      <p class="subtitle">Daj Bohu prvú hodinu svojho dňa. Jednoducho. Každý deň.</p>
-    </header>
 
-    <section class="card">
+<body>
+
+  <header class="hero">
+    <div class="hero-bg">
+      <img src="assets/images/hero_sunrise.png" alt="Východ slnka" />
+    </div>
+    <div class="hero-content container">
+      <div class="logo">1hour4God.com</div>
+      <h1>Prvá hodina<br>pre Boha</h1>
+      <p class="hero-subtitle">Daj Bohu prvú hodinu svojho dňa.<br>Jednoducho. Každý deň.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card intro-text">
       <p>Toto je najdôležitejšia hodina dňa – tá prvá ráno. Od toho, ako ju prežiješ, závisí zvyšok dňa.</p>
       <p>Ak sa budeš ponáhľať a tvoje myšlienky budú rozhádzané, tvoj deň to ukáže.</p>
-
-      <h2 class="section-title">Ako prežiť túto hodinu?</h2>
-      <ol>
-        <li><strong>Vstávaj vždy v rovnakom čase.</strong> Nezostávaj v posteli „ešte 5 minút“.</li>
-        <li><strong>Počúvaj svoje myšlienky.</strong> Všimni si tie o zhonu, starostiach a strachu – nekŕm ich.</li>
-        <li><strong>Odovzdaj ich Bohu.</strong> Pros Boha, aby tieto myšlienky vzal. Vyčisti si myseľ pre Neho.</li>
-        <li><strong>Prines svoj kríž Ježišovi.</strong> Pros Ho o pomoc s ťažkými emóciami a stavmi.</li>
-        <li><strong>Zaznamenávaj pokroky.</strong> Zapíš si každý deň, čo sa deje v tvojom srdci.</li>
-        <li><strong>Ďakuj predtým, než začneš konať.</strong> Nezabudni poďakovať Pánovi skôr, než začneš.</li>
-        <li><strong>Udržuj si čistú myseľ.</strong> Nedovoľ, aby zlé myšlienky zapustili korene. Vychádzaj každý deň bez ohľadu na počasie – ukáž svoje odhodlanie a vážnosť na tejto ceste.</li>
-      </ol>
-
-      <h2 class="section-title">Jednoduchá modlitba</h2>
-      <p class="prayer">
-        Pane, vezmi odo mňa strach a starosti.<br />
-        Otváram Ti svoju myseľ aj srdce.<br />
-        Veď ma v tejto hodine aj po celý deň. Amen.
-      </p>
-
-      <h2 class="section-title">Povzbudenie</h2>
-      <p>Dovoľ Bohu viesť ťa v tejto premene a zdieľaj ju s ostatnými.</p>
-      <p class="quote">„Všetko môžem v Kristovi, ktorý ma posilňuje.“</p>
-
-      <div class="badge">Začni zajtra ráno</div>
     </section>
 
-    <p class="footer-note">Táto stránka nezhromažďuje tvoje údaje. Je to len pripomienka, aby si dal Bohu prvú hodinu dňa.</p>
+    <section class="card">
+      <h2 class="section-title">Ako prežiť túto hodinu?</h2>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <strong>Vstávaj vždy v rovnakom čase.</strong>
+            Nezostávaj v posteli „ešte 5 minút“.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <strong>Počúvaj svoje myšlienky.</strong>
+            Všimni si tie o zhonu, starostiach a strachu – nekŕm ich.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <strong>Odovzdaj ich Bohu.</strong>
+            Pros Boha, aby tieto myšlienky vzal. Vyčisti si myseľ pre Neho.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <strong>Prines svoj kríž Ježišovi.</strong>
+            Pros Ho o pomoc s ťažkými emóciami a stavmi.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <strong>Zaznamenávaj pokroky.</strong>
+            Zapíš si každý deň, čo sa deje v tvojom srdci.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <strong>Ďakuj predtým, než začneš konať.</strong>
+            Nezabudni poďakovať Pánovi skôr, než začneš.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">7</div>
+          <div class="step-content">
+            <strong>Udržuj si čistú myseľ.</strong>
+            Nedovoľ, aby zlé myšlienky zapustili korene. Vychádzaj každý deň bez ohľadu na počasie – ukáž svoje
+            odhodlanie a vážnosť na tejto ceste.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card prayer-card">
+      <h2 class="section-title">Jednoduchá modlitba</h2>
+      <div class="prayer-text">
+        "Pane, vezmi odo mňa strach a starosti.<br />
+        Otváram Ti svoju myseľ aj srdce.<br />
+        Veď ma v tejto hodine aj po celý deň. Amen."
+      </div>
+
+      <div style="margin-top: 40px;">
+        <p style="color: #cbd5e1; margin-bottom: 8px;">Dovoľ Bohu viesť ťa v tejto premene.</p>
+        <div class="cta-badge">Začni zajtra ráno</div>
+      </div>
+
+      <div class="quote">„Všetko môžem v Kristovi, ktorý ma posilňuje.“</div>
+    </section>
   </main>
+
+  <footer>
+    <p class="footer-note">Táto stránka nezhromažďuje tvoje údaje. Je to len pripomienka, aby si dal Bohu prvú hodinu
+      dňa.</p>
+  </footer>
+
 </body>
+
 </html>
